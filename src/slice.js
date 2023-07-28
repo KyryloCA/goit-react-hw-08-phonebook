@@ -1,7 +1,6 @@
 import {
   addContactOBJ,
   addUserOBJ,
-  // checkTokenValidity,
   deleteContactByID,
   fetchContacts,
   loginUserOBJ,
@@ -91,26 +90,6 @@ const filterSlice = createSlice({
   },
 });
 
-// const tokenValidateSlice = createSlice({
-//   name: 'tokenValidate',
-//   initialState: { valid: false },
-//   reducers: {
-//     resetTokenState: state => {
-//       state.valid = false;
-//     },
-//   },
-//   extraReducers: builder => {
-//     builder
-//       .addCase(checkTokenValidity.fulfilled, state => {
-//         state.valid = true;
-//       })
-//       .addCase(checkTokenValidity.rejected, state => {
-//         state.valid = false;
-//       });
-//   },
-// });
-
-// User
 const userSlice = createSlice({
   name: 'user',
   initialState: { user: {}, token: '' },
@@ -174,10 +153,7 @@ const userSlice = createSlice({
 
 export const { removeContactRedux } = contactsSlice.actions;
 export const { addFilterRedux } = filterSlice.actions;
-// export const { resetTokenState } = tokenValidateSlice.actions;
 export const { autoLogOut } = userSlice.actions;
-
 export const filterReducer = filterSlice.reducer;
 export const contactsReducer = contactsSlice.reducer;
 export const userReducer = userSlice.reducer;
-// export const tokenReducer = tokenValidateSlice.reducer;

@@ -5,15 +5,6 @@ const BASE_CONNECTIONS_API_URL = 'https://connections-api.herokuapp.com';
 
 /////---------------------------------------------------------
 
-// function errorPreprocessor(error) {
-//   if (error.response.data.message) {
-//     throw error.response.data.message;
-//   } else if (error.message) {
-//     throw error.message;
-//   } else {
-//     throw new Error('Unexpected error');
-//   }
-// }
 function errorPreprocessor(error) {
   return error.response.status;
 }

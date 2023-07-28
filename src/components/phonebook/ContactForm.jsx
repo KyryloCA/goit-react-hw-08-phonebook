@@ -1,10 +1,10 @@
 import React from 'react';
 
-// import { addContactRedux } from 'slice';
 import { useDispatch, useSelector } from 'react-redux';
-// import { nanoid } from '@reduxjs/toolkit';
+
 import { addContactOBJ } from 'operations';
 import Loader from 'components/loader/Loader';
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
   const pending = useSelector(state => state.contactsStore.pending);
@@ -19,8 +19,15 @@ const ContactForm = () => {
       },
       token: currentToken,
     };
-    dispatch(addContactOBJ(fieldResult));
-    evt.target.reset();
+    if (
+      evt.target.elements.contactName.value &&
+      evt.target.elements.contactPhone.value
+    ) {
+      dispatch(addContactOBJ(fieldResult));
+      evt.target.reset();
+    } else {
+      toast.error('name and number should be filled');
+    }
   };
 
   return (
