@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { removeContactRedux } from 'slice';
 import {
+  CurrentUser,
   HeaderContainer,
+  InactiveStyledLink,
   NavigationLinksContainer,
   StyledLink,
   UserMenu,
@@ -25,16 +27,30 @@ const Header = () => {
     dispatch(removeContactRedux());
     dispatch(logoutUserToken(currentUser.token));
   };
+
   return (
     <HeaderContainer>
       <NavigationLinksContainer>
-        <StyledLink to="/">Login</StyledLink>
-        <StyledLink to="register">Register</StyledLink>
-        <StyledLink to="contacts">Contacts</StyledLink>
+        {!currentUser.user.name ? (
+          <StyledLink to="/">Login</StyledLink>
+        ) : (
+          <InactiveStyledLink>Login</InactiveStyledLink>
+        )}
+        {!currentUser.user.name ? (
+          <StyledLink to="register">Register</StyledLink>
+        ) : (
+          <InactiveStyledLink>Register</InactiveStyledLink>
+        )}
+        {!currentUser.user.name ? (
+          <InactiveStyledLink>Contacts</InactiveStyledLink>
+        ) : (
+          <StyledLink to="contacts">Contacts</StyledLink>
+        )}
       </NavigationLinksContainer>
       {currentUser.user.name ? (
         <UserMenu>
-          <p>{currentUser.user.name}</p>
+          <CurrentUser>{currentUser.user.name}</CurrentUser>
+
           <button onClick={logoutHandler}>Logout</button>
         </UserMenu>
       ) : (

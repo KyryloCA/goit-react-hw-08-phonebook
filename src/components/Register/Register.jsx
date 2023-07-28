@@ -1,6 +1,7 @@
 import { addUserOBJ } from 'operations';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import css from './Register.module.css';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -14,21 +15,23 @@ const Register = () => {
     };
 
     dispatch(addUserOBJ(fieldResult));
-    evt.target.reset();
+    // evt.target.reset();
   };
   return (
-    <form onSubmit={onSubmitHandler}>
-      <label htmlFor="userName">Name</label>
-      <input id="userName" name="userName" type="text" />
-      <label htmlFor="userEmail">Email</label>
-      <input id="userEmail" name="userEmail" type="email" />
-      <label htmlFor="password">Password</label>
-      <input id="password" name="password" type="text" />
+    <div className={css.container}>
+      <form onSubmit={onSubmitHandler}>
+        <label htmlFor="userName">Name</label>
+        <input id="userName" name="userName" type="text" />
+        <label htmlFor="userEmail">Email</label>
+        <input id="userEmail" name="userEmail" type="email" />
+        <label htmlFor="password">Password</label>
+        <input id="password" name="password" type="text" />
 
-      <button type="submit" className="submitButton">
-        Register
-      </button>
-    </form>
+        <button type="submit" className="submitButton">
+          Register
+        </button>
+      </form>
+    </div>
   );
 };
 

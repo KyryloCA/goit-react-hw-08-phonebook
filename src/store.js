@@ -17,12 +17,13 @@ const rootReducer = combineReducers({
   contactsStore: contactsReducer,
   filter: filterReducer,
   user: userReducer,
+  // tokenValidate: tokenReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user'],
+  whitelist: ['user', 'tokenValidate'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

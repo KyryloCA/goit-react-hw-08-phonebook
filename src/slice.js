@@ -1,19 +1,23 @@
 import {
   addContactOBJ,
   addUserOBJ,
+  // checkTokenValidity,
   deleteContactByID,
   fetchContacts,
   loginUserOBJ,
   logoutUserToken,
 } from 'operations';
+
 import { toast } from 'react-toastify';
 const { createSlice } = require('@reduxjs/toolkit');
 
 const filterInitialState = '';
-
+export const clearUserStore = () => {
+  return { type: 'user/clearUserStore' };
+};
 const contactsSlice = createSlice({
   name: 'contactsStore',
-  initialState: { contacts: [], error: '', pending: false },
+  initialState: { contacts: [], error: '', pending: false, authFail: '' },
 
   reducers: {
     removeContactRedux: state => {
@@ -28,11 +32,23 @@ const contactsSlice = createSlice({
         state.pending = true;
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.contacts.push(...action.payload);
+        if (action.payload) {
+          state.contacts.push(...action.payload);
+          state.authFail = '';
+        }
         state.pending = false;
       })
-      .addCase(fetchContacts.rejected, state => {
-        state.error = 'Error occurred while fetching contacts.';
+      .addCase(fetchContacts.rejected, (state, action) => {
+        if (
+          action.error.message &&
+          action.error.message === 'Please authenticate'
+        ) {
+          console.log('found');
+          state.authFail = action.error.message;
+
+          //clear user store in some way
+        }
+
         state.pending = false;
       })
       .addCase(deleteContactByID.pending, state => {
@@ -75,9 +91,37 @@ const filterSlice = createSlice({
   },
 });
 
+// const tokenValidateSlice = createSlice({
+//   name: 'tokenValidate',
+//   initialState: { valid: false },
+//   reducers: {
+//     resetTokenState: state => {
+//       state.valid = false;
+//     },
+//   },
+//   extraReducers: builder => {
+//     builder
+//       .addCase(checkTokenValidity.fulfilled, state => {
+//         state.valid = true;
+//       })
+//       .addCase(checkTokenValidity.rejected, state => {
+//         state.valid = false;
+//       });
+//   },
+// });
+
+// User
 const userSlice = createSlice({
   name: 'user',
   initialState: { user: {}, token: '' },
+  reducers: {
+    autoLogOut: state => {
+      console.log('actio!!!');
+      state.user = {};
+      state.token = '';
+      state.pending = false;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(addUserOBJ.pending, state => {
@@ -93,8 +137,8 @@ const userSlice = createSlice({
         });
         state.pending = false;
       })
-      .addCase(addUserOBJ.rejected, state => {
-        state.error = 'Error occurred while adding user.';
+      .addCase(addUserOBJ.rejected, (state, action) => {
+        toast.error(action.error.message);
         state.pending = false;
       })
       .addCase(loginUserOBJ.pending, state => {
@@ -119,15 +163,21 @@ const userSlice = createSlice({
         state.pending = false;
       })
       .addCase(logoutUserToken.rejected, state => {
+        state.user = {};
+        state.token = '';
+        state.pending = false;
         state.error = 'Error occurred while logging out user.';
         state.pending = false;
       });
   },
 });
 
-export const { addContactRedux, removeContactRedux } = contactsSlice.actions;
+export const { removeContactRedux } = contactsSlice.actions;
 export const { addFilterRedux } = filterSlice.actions;
+// export const { resetTokenState } = tokenValidateSlice.actions;
+export const { autoLogOut } = userSlice.actions;
 
 export const filterReducer = filterSlice.reducer;
 export const contactsReducer = contactsSlice.reducer;
 export const userReducer = userSlice.reducer;
+// export const tokenReducer = tokenValidateSlice.reducer;

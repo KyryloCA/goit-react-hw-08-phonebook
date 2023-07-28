@@ -11,13 +11,16 @@ const Filter = () => {
   };
 
   return (
-    <input
-      id="searchForm"
-      name="searchForm"
-      type="text"
-      value={useSelector(state => state.filter)}
-      onChange={searchEngine}
-    />
+    <>
+      <span> Find contacts: </span>
+      <input
+        id="searchForm"
+        name="searchForm"
+        type="text"
+        value={useSelector(state => state.filter)}
+        onChange={searchEngine}
+      />
+    </>
   );
 };
 

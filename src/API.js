@@ -5,6 +5,19 @@ const BASE_CONNECTIONS_API_URL = 'https://connections-api.herokuapp.com';
 
 /////---------------------------------------------------------
 
+// function errorPreprocessor(error) {
+//   if (error.response.data.message) {
+//     throw error.response.data.message;
+//   } else if (error.message) {
+//     throw error.message;
+//   } else {
+//     throw new Error('Unexpected error');
+//   }
+// }
+function errorPreprocessor(error) {
+  return error.response.status;
+}
+
 async function deleteContacts_API({ id, token }) {
   const colectedURL = `${BASE_CONNECTIONS_API_URL}/contacts/${id}`;
   return axios
@@ -13,7 +26,10 @@ async function deleteContacts_API({ id, token }) {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then(r => r.data);
+    .then(r => r.data)
+    .catch(error => {
+      errorPreprocessor(error);
+    });
 }
 
 async function getContacts_API(token) {
@@ -24,7 +40,10 @@ async function getContacts_API(token) {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then(r => r.data);
+    .then(r => r.data)
+    .catch(error => {
+      errorPreprocessor(error);
+    });
 }
 
 async function addContact_API(contactOBJ) {
@@ -35,17 +54,30 @@ async function addContact_API(contactOBJ) {
         Authorization: `Bearer ${contactOBJ.token}`,
       },
     })
-    .then(r => r.data);
+    .then(r => r.data)
+    .catch(error => {
+      errorPreprocessor(error);
+    });
 }
 
 async function createUser_API(userOBJ) {
   const colectedURL = `${BASE_CONNECTIONS_API_URL}/users/signup`;
-  return axios.post(colectedURL, userOBJ).then(r => r.data);
+  return axios
+    .post(colectedURL, userOBJ)
+    .then(r => r.data)
+    .catch(error => {
+      errorPreprocessor(error);
+    });
 }
 
 async function loginUser_API(userOBJ) {
   const colectedURL = `${BASE_CONNECTIONS_API_URL}/users/login`;
-  return axios.post(colectedURL, userOBJ).then(r => r.data);
+  return axios
+    .post(colectedURL, userOBJ)
+    .then(r => r.data)
+    .catch(error => {
+      errorPreprocessor(error);
+    });
 }
 
 async function logoutUser_API(userOBJ) {
@@ -60,7 +92,23 @@ async function logoutUser_API(userOBJ) {
         },
       }
     )
-    .then(r => r.data);
+    .then(r => r.data)
+    .catch(error => {
+      errorPreprocessor(error);
+    });
+}
+async function checkTokenValidity_API(token) {
+  const colectedURL = `${BASE_CONNECTIONS_API_URL}/users/current`;
+  return axios
+    .get(colectedURL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(r => r.data)
+    .catch(error => {
+      errorPreprocessor(error);
+    });
 }
 
 export {
@@ -70,4 +118,5 @@ export {
   createUser_API,
   loginUser_API,
   logoutUser_API,
+  checkTokenValidity_API,
 };

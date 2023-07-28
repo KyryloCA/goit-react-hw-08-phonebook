@@ -47,11 +47,10 @@ form button {
 }
 li button {
   padding: 5px;
-  margin-left: 10px;
-}
-.itemContainer {
-  display: flex;
-  align-items: center;
+  margin-left: auto;
 }
 
+h1,h2{
+  text-align: center;
+}
 

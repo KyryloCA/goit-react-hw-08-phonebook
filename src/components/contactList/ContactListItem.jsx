@@ -1,6 +1,7 @@
 import { deleteContactByID } from 'operations';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import css from './ContactList.module.css';
 
 const ContactListItem = ({ id, name, number }) => {
   const token = useSelector(state => state.user.token);
@@ -10,10 +11,11 @@ const ContactListItem = ({ id, name, number }) => {
     token: token,
   };
   return (
-    <li>
-      <div className="itemContainer">
+    <li className={css.contact}>
+      <div className={css.itemContainer}>
         <span>{name}: </span>
-        <span>{number}</span>
+        <span className={css.spanner}>{number}</span>
+
         <button onClick={() => dispatch(deleteContactByID(removedContactOBJ))}>
           Delete
         </button>

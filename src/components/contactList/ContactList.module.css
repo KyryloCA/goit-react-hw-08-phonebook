@@ -1,0 +1,14 @@
+.spanner{
+    margin-left: 5px;
+    flex-grow: 1;
+}
+
+.itemContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .contact{
+    margin-bottom: 3px;
+  }

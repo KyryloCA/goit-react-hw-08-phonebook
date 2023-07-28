@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   addContact_API,
+  checkTokenValidity_API,
   createUser_API,
   deleteContacts_API,
   getContacts_API,
@@ -26,4 +27,7 @@ export const loginUserOBJ = createAsyncThunk('loginUserOBJ', userOBJ =>
 );
 export const logoutUserToken = createAsyncThunk('logoutUserToken', userToken =>
   logoutUser_API(userToken)
+);
+export const checkTokenValidity = createAsyncThunk('tokenValidity', userToken =>
+  checkTokenValidity_API(userToken)
 );
