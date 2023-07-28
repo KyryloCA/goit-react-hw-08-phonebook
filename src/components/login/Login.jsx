@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUserOBJ } from 'operations';
 import css from './Login.module.css';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -12,9 +13,15 @@ const Login = () => {
       email: evt.target.elements.loginUserEmail.value.trim(),
       password: evt.target.elements.loginUserPassword.value.trim(),
     };
-
-    dispatch(loginUserOBJ(fieldResult));
-    // evt.target.reset();
+    if (
+      evt.target.elements.loginUserEmail.value &&
+      evt.target.elements.loginUserPassword.value
+    ) {
+      dispatch(loginUserOBJ(fieldResult));
+      evt.target.reset();
+    } else {
+      toast.error('All fields should be filled');
+    }
   };
   return (
     <div className={css.container}>

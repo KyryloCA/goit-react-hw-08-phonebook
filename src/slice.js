@@ -124,9 +124,13 @@ const userSlice = createSlice({
         state.pending = true;
       })
       .addCase(loginUserOBJ.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.pending = false;
+        if (action.payload && action.payload.user && action.payload.token) {
+          state.user = action.payload.user;
+          state.token = action.payload.token;
+          state.pending = false;
+        } else {
+          toast.error('Check email and password, please');
+        }
       })
       .addCase(loginUserOBJ.rejected, state => {
         state.error = 'Error occurred while logging in user.';

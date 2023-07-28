@@ -2,6 +2,7 @@ import { addUserOBJ } from 'operations';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import css from './Register.module.css';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -13,9 +14,16 @@ const Register = () => {
       email: evt.target.elements.userEmail.value.trim(),
       password: evt.target.elements.password.value.trim(),
     };
-
-    dispatch(addUserOBJ(fieldResult));
-    // evt.target.reset();
+    if (
+      evt.target.elements.userName.value &&
+      evt.target.elements.userEmail.value &&
+      evt.target.elements.password.value
+    ) {
+      dispatch(addUserOBJ(fieldResult));
+      evt.target.reset();
+    } else {
+      toast.error('All fields should be filled');
+    }
   };
   return (
     <div className={css.container}>
